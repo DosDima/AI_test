@@ -3,31 +3,29 @@
     <div class="num-box">Сумма:{{ result }}</div>
     <KitCard>
       <template #card__header>
+        <KitInput
+            v-for="(val, index) in inputList"
+            :key="index"
+            v-model="inputList[index]"
+            :name="`numInput${index}`"
+            style="margin-bottom: 1em;"
+            :label="`слагаемое ${index + 1}`"
+            :type="'text'"
+            :maxlength="12"
+        />
       </template>
       <template #card__main>
-        <div>
-          <KitInput
-              v-for="(val, index) in inputList"
-              :key="index"
-              v-model="inputList[index]"
-              style="margin-bottom: 1em;"
-              :style="{'color: red': !val, 'color: green' : val}"
-              :label="`слагаемое ${index + 1}`"
-              :type="'text'"
-              :maxlength="12"
-          />
-          <KitButton
-              style="margin-top: 1em;"
-              :color="'info'"
-              :text="'+ Добавить'"
-              @click-on-btn="addInputBtnHandler"
-          />
-        </div>
+        <KitButton
+            style="margin-top: 1em;"
+            :color="'info'"
+            :text="'+ Добавить'"
+            @click-on-btn="addInputBtnHandler"
+        />
       </template>
       <template #card__footer>
         <KitButton
             style="margin-top: 4em;"
-            :text="'Закончить и перейти на страницу 2'"
+            :text="'Сохранить и продолжить'"
             @click-on-btn="nextBtnHandler"
         />
       </template>
@@ -45,7 +43,7 @@ definePageMeta({
 
 const router = useRouter()
 const appStore = useAppStore()
-const inputList = ref<string[]>(['0'])
+const inputList = ref<string[]>([''])
 const result = ref<string>('0')
 
 const nextBtnHandler = () => {
@@ -55,7 +53,7 @@ const nextBtnHandler = () => {
 
 const addInputBtnHandler = () => {
   if (inputList.value.length > 100) return
-  inputList.value.push('0')
+  inputList.value.push('')
   window.scrollTo(0, document.body.scrollHeight + 100)
 }
 

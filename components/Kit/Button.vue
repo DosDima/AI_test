@@ -3,6 +3,7 @@
       class="btn"
       :class="color"
       :style="{ height: height + 'px' }"
+      :disabled="disabled"
       @click.stop="$emit('click-on-btn')"
   >{{ text }}
   </button>
@@ -22,6 +23,10 @@ defineProps({
   height: {
     type: Number,
     default: 42,
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
   },
 });
 

@@ -1,20 +1,10 @@
 <template>
-  <div class="card" :style="{width: width}">
+  <div class="card">
     <slot name="card__header"/>
     <slot name="card__main"/>
     <slot name="card__footer"/>
   </div>
 </template>
-
-<script setup lang="ts">
-defineProps({
-  width: {
-    default: 320,
-    type: Number,
-  },
-});
-
-</script>
 
 <style scoped>
 .card {
@@ -23,7 +13,7 @@ defineProps({
   justify-content: space-between;
   align-items: center;
   height: fit-content;
-  max-width: 90vw;
+  max-width: 320px;
   min-width: 320px;
   min-height: 320px;
   padding: 1em;

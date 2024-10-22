@@ -1,24 +1,29 @@
 <template>
-  <div>
-    <label for="name">{{ label }}</label>
+  <div class="input__wrapper">
+    <label class="input__label" :for="name">{{ label }}</label>
     <input
-        :id="'name'"
-        v-model="v"
+        v-model="localComputed"
         :type="type"
-        :name="'name'"
+        :name="name"
         required
         :minlength="minlength"
         :maxlength="maxlength"
         size="10"
-        @input="$emit('update:modelValue', v)"
-        @keydown.enter="$emit('update:modelValue', v)"
     >
   </div>
 </template>
 
 <script setup lang="ts">
-defineEmits(['update:modelValue']);
-defineProps({
+const emit = defineEmits(['update:modelValue']);
+const props = defineProps({
+  modelValue: {
+    type: String,
+    default: '',
+  },
+  name: {
+    type: String,
+    required: true,
+  },
   type: {
     type: String,
     default: 'text',
@@ -37,14 +42,29 @@ defineProps({
   },
 });
 
-const v = ref<string>('')
+const localComputed = computed({
+  get() {
+    return props.modelValue;
+  },
+  set(newValue) {
+    emit('update:modelValue', newValue)
+  }
+});
+
 
 </script>
 
 <style scoped>
 
+.input__wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 input {
   width: 100%;
+  min-width: 100%;
   color: var(--color-text);
   background-color: var(--color-background-soft);
   font-size: 2rem;
