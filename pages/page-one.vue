@@ -12,7 +12,7 @@
               v-model="inputList[index]"
               style="margin-bottom: 1em;"
               :style="{'color: red': !val, 'color: green' : val}"
-              :label="`слогаемое ${index + 1}`"
+              :label="`слагаемое ${index + 1}`"
               :type="'text'"
               :maxlength="12"
           />
@@ -28,7 +28,7 @@
         <KitButton
             style="margin-top: 4em;"
             :text="'Закончить и перейти на страницу 2'"
-            @click-on-btn="router.push('page-two')"
+            @click-on-btn="nextBtnHandler"
         />
       </template>
     </KitCard>
@@ -36,14 +36,22 @@
 </template>
 
 <script setup lang="ts">
+import {useAppStore} from "~/stores/appStore";
+
 definePageMeta({
   layout: "default",
   title: "Page One",
 });
 
 const router = useRouter()
+const appStore = useAppStore()
 const inputList = ref<string[]>(['0'])
 const result = ref<string>('0')
+
+const nextBtnHandler = () => {
+  appStore.setNumber(convertToInt(result.value))
+  router.push('page-two')
+}
 
 const addInputBtnHandler = () => {
   if (inputList.value.length > 100) return
@@ -84,7 +92,5 @@ watchEffect(() => {
   max-height: 64px;
   font-size: 2em;
   font-weight: bold;
-
-
 }
 </style>
