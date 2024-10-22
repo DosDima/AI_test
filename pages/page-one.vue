@@ -11,14 +11,15 @@
               :key="index"
               v-model="inputList[index]"
               style="margin-bottom: 1em;"
-              :label="`значение ${index + 1}`"
+              :style="{'color: red': !val, 'color: green' : val}"
+              :label="`слогаемое ${index + 1}`"
               :type="'text'"
-              :maxlength="16"
+              :maxlength="12"
           />
           <KitButton
               style="margin-top: 1em;"
               :color="'info'"
-              :text="'+ добавить'"
+              :text="'+ Добавить'"
               @click-on-btn="addInputBtnHandler"
           />
         </div>
@@ -35,7 +36,6 @@
 </template>
 
 <script setup lang="ts">
-
 definePageMeta({
   layout: "default",
   title: "Page One",
@@ -43,24 +43,25 @@ definePageMeta({
 
 const router = useRouter()
 const inputList = ref<string[]>(['0'])
-const result = ref<number>(0)
+const result = ref<string>('0')
 
 const addInputBtnHandler = () => {
-  inputList.value.push('0')
   if (inputList.value.length > 100) return
+  inputList.value.push('0')
   window.scrollTo(0, document.body.scrollHeight + 100)
 }
 
 watchEffect(() => {
-  result.value = 0
-  inputList.value.forEach((x) => result.value += convertToInt(x))
+  let counter = 0
+  inputList.value.forEach((x) => counter += convertToInt(x))
+  result.value = counter.toFixed(3)
 })
 
 // const inputs: any[] = [
 //   123, '123', 12.3, '12.3', '   12.3   ',
 //   1_000_000, '1_000_000',
 //   '0b11111111', '0o377', '0xFF',
-//   '', '    ',
+//   '', '    ', '1.',
 //   'abc', '12.34Ab!@#$',
 //   '10e100', '10e1000',
 //   null, undefined, Infinity];

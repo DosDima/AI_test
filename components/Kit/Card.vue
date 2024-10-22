@@ -25,6 +25,7 @@ defineProps({
   height: fit-content;
   max-width: 90vw;
   min-width: 320px;
+  min-height: 320px;
   padding: 1em;
   background-color: var(--color-background-mute);
   border: 1px solid var(--color-border);
