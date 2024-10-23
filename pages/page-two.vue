@@ -8,8 +8,8 @@
           </template>
           <template #card__main>
             <KitInput
-                v-model="inputValue"
-                :value="inputValue"
+                v-model="inputPhone"
+                :value="inputPhone"
                 :name="'phoneInput'"
                 :label="'Номер телефонв'"
                 :type="'tel'"
@@ -27,7 +27,7 @@
     </KitOverlay>
     <KitCard>
       <template #card__header>
-        <div>Logo</div>
+        <div></div>
       </template>
       <template #card__main>
         <KitInput
@@ -57,37 +57,45 @@ import {useAppStore} from "~/stores/appStore"
 
 definePageMeta({
   layout: "default",
-  title: "Page One",
+  title: "Page Two",
 })
 
 const router = useRouter()
-const appStore = useAppStore()
+const userCookie = useCookie('user')
 
+const appStore = useAppStore()
 const isShowInput = ref<boolean>(false)
 const isOpenModal = ref<boolean>(false)
-
 const inputValue = ref<string>('')
+const inputPhone = ref<string>('')
 const inputLabel = ref<string>('start')
 
 const nextBtnHandler = () => {
   if (inputLabel.value === 'start') {
     isShowInput.value = true
-    appStore.setSoname(inputValue.value)
     inputLabel.value = 'Фамилия'
   }
-  if (inputLabel.value === 'Фамилия' && inputValue.value) {
+  if (inputLabel.value === 'Фамилия' && inputValue.value.trim()) {
     appStore.setSoname(inputValue.value)
     inputLabel.value = 'Имя'
     inputValue.value = ''
   }
-  if (inputLabel.value === 'Имя' && inputValue.value) {
+  if (inputLabel.value === 'Имя' && inputValue.value.trim()) {
     appStore.setName(inputValue.value)
     isOpenModal.value = true
-    inputValue.value = ''
   }
 }
+
 const finishBtnHandler = () => {
-  appStore.setPhone(inputValue.value)
+  if (!inputPhone.value) return
+
+  userCookie.value = JSON.stringify({
+    userNumber: String(appStore.userNumber),
+    userSoname: appStore.userSoname,
+    userName: appStore.userName,
+    userPhone: inputPhone.value,
+  })
+
   router.push('page-three')
 }
 </script>

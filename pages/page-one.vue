@@ -3,24 +3,25 @@
     <div class="num-box">Сумма:{{ result }}</div>
     <KitCard>
       <template #card__header>
-        <KitInput
-            v-for="(val, index) in inputList"
-            :key="index"
-            v-model="inputList[index]"
-            :name="`numInput${index}`"
-            style="margin-bottom: 1em;"
-            :label="`слагаемое ${index + 1}`"
-            :type="'text'"
-            :maxlength="12"
-        />
-      </template>
-      <template #card__main>
-        <KitButton
-            style="margin-top: 1em;"
-            :color="'info'"
-            :text="'+ Добавить'"
-            @click-on-btn="addInputBtnHandler"
-        />
+        <div>
+          <KitInput
+              v-for="(val, index) in inputList"
+              :key="index"
+              v-model="inputList[index]"
+              :name="`numInput${index}`"
+              style="margin-bottom: 1em;"
+              :label="`слагаемое ${index + 1}`"
+              :type="'text'"
+              :required="true"
+              :maxlength="12"
+              @keydown.enter="addInputBtnHandler"
+          />
+          <KitButton
+              :color="'info'"
+              :text="'+ Добавить'"
+              @click-on-btn="addInputBtnHandler"
+          />
+        </div>
       </template>
       <template #card__footer>
         <KitButton
@@ -41,9 +42,10 @@ definePageMeta({
   title: "Page One",
 });
 
+
 const router = useRouter()
 const appStore = useAppStore()
-const inputList = ref<string[]>([''])
+const inputList = ref<string[]>(['0'])
 const result = ref<string>('0')
 
 const nextBtnHandler = () => {
@@ -53,25 +55,15 @@ const nextBtnHandler = () => {
 
 const addInputBtnHandler = () => {
   if (inputList.value.length > 100) return
-  inputList.value.push('')
+  inputList.value.push('0')
   window.scrollTo(0, document.body.scrollHeight + 100)
 }
 
 watchEffect(() => {
-  let counter = 0
-  inputList.value.forEach((x) => counter += convertToInt(x))
+  let counter: number = 0
+  inputList.value.forEach((x): number => counter += convertToInt(x))
   result.value = counter.toFixed(3)
 })
-
-// const inputs: any[] = [
-//   123, '123', 12.3, '12.3', '   12.3   ',
-//   1_000_000, '1_000_000',
-//   '0b11111111', '0o377', '0xFF',
-//   '', '    ', '1.',
-//   'abc', '12.34Ab!@#$',
-//   '10e100', '10e1000',
-//   null, undefined, Infinity];
-// const test = () => inputs.forEach(x => console.log(x, `= = =`, convertToInt(x)))
 
 </script>
 

@@ -54,17 +54,6 @@ defineProps({
   box-shadow: 0 0 10px 0 var(--color-info) inset, 0 0 10px 4px var(--color-info);
 }
 
-.danger {
-  color: green;
-  border-color: #3498db;
-  box-shadow: 0 0 40px 40px #3498db inset, 0 0 0 0 #3498db;
-}
-
-.danger:hover, .danger:focus {
-  outline: 0;
-  box-shadow: 0 0 10px 0 #3498db inset, 0 0 10px 4px #3498db;
-}
-
 .btn {
   box-sizing: border-box;
   background-color: transparent;

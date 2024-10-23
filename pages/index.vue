@@ -22,7 +22,18 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "default",
+  title: "Index Page",
+  middleware: [
+    function () {
+      clearNuxtState()
+      clearNuxtData()
+    },
+  ],
 })
-
 const router = useRouter()
+const cookies: any = useCookie('user')
+
+onMounted(() => {
+  cookies.value = undefined
+})
 </script>

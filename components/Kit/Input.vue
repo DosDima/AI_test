@@ -5,9 +5,10 @@
         v-model="localComputed"
         :type="type"
         :name="name"
-        required
+        :required="required"
         :minlength="minlength"
         :maxlength="maxlength"
+        step="0.001"
         size="10"
     >
   </div>
@@ -17,8 +18,12 @@
 const emit = defineEmits(['update:modelValue']);
 const props = defineProps({
   modelValue: {
-    type: String,
+    type: [String, Number],
     default: '',
+  },
+  required: {
+    type: Boolean,
+    default: true,
   },
   name: {
     type: String,
@@ -55,7 +60,6 @@ const localComputed = computed({
 </script>
 
 <style scoped>
-
 .input__wrapper {
   display: flex;
   flex-direction: column;
@@ -74,6 +78,14 @@ input {
 
 input:focus {
   border-color: var(--color-border-hover);
+}
+
+input:invalid {
+  border-color: var(--color-danger);
+}
+
+input:valid {
+  border-color: var(--color-success);
 }
 
 </style>
